@@ -1,0 +1,7 @@
+.container{
+    background-image: url("../../assets/sun.png");
+    width: 100vw;
+    height: 100vh;
+    background-color: red;
+    background-size: cover;
+}
