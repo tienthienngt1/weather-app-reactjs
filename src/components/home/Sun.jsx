@@ -15,6 +15,7 @@ import axios from "axios";
 import logo from "../../assets/logo.png";
 import sun from "../../assets/sun.png";
 import { KEY } from "../../constants";
+import Container from "./Container";
 
 const HeaderSun = styled.div`
 	display: flex;
@@ -33,7 +34,8 @@ const HeaderSun = styled.div`
 const WrapSun = styled.div`
 	background-image: url(${sun});
 	width: 100vw;
-	height: 100vh;
+	min-width: 410px;
+	min-height: 100vh;
 	background-size: cover;
 	padding: ${(props) => props.padding};
 `;
@@ -43,12 +45,17 @@ const WrapSearch = styled.div`
 	padding: 10px;
 	background: #fff;
 	z-index: 2;
+	.result__search {
+		cursor: pointer;
+		background: red;
+	}
 `;
 
-const WrapInput = () => {
+const WrapInput = ({ setData, ...rest }) => {
 	const [onSearch, setOnSearch] = useState("");
 	const [isLoad, setIsLoad] = useState(false);
 	const [isDisplay, setIsDisplay] = useState(false);
+	const [result, setResult] = useState("");
 	useEffect(() => {
 		const delaySearch = setTimeout(() => {
 			if (onSearch === "") {
@@ -60,62 +67,93 @@ const WrapInput = () => {
 				// get data from openweather
 				axios
 					.get(
-						`https://api.openweathermap.org/data/2.5/weather?q=${onSearch}&appid=${KEY}`
+						`https://api.openweathermap.org/data/2.5/weather?q=${onSearch}&units=metric&lang=vi&appid=${KEY}`
 					)
-					.then(res => {
-                        console.log(res);
-                        const {lon, lat} = res.data.coord
-                        console.log(lon,lat);
-                        axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=daily&appid=${KEY}`)
-                        .then(res => {
-                            setIsLoad(false)
-                            console.log(res);
-                        })
-                        .catch(err => {
-                            setIsLoad(false)
-                            console.log(err);
-                        })
+					.then((res) => {
+						setResult(res.data);
+						console.log(res);
+						setIsLoad(false);
+						// axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=daily&appid=${KEY}`)
+						// .then(res => {
+						//     setIsLoad(false)
+						//     console.log(res);
+						// })
+						// .catch(err => {
+						//     setIsLoad(false)
+						//     setResult('')
+						// })
 					})
-                    .catch(error => {
-                        setIsLoad(false)
-                    })
+					.catch((error) => {
+						setIsLoad(false);
+						setResult("");
+					});
 			}
 		}, 1000);
 		return () => clearTimeout(delaySearch);
-	}, [onSearch]);
+	}, [onSearch, setData]);
+
 	return (
-		<Form onSubmit={e => e.preventDefault()} >
-			<FloatingLabel controlId="floatingInput" label="Enter your city...">
-				<Form.Control
-					type="text"
-					onChange={(e) => setOnSearch(e.target.value)}
-					onBlur={() => setIsDisplay(false)}
-					placeholder="Enter your city... "
-				/>
-			</FloatingLabel>
-			{isDisplay ? <ResultSearch load={isLoad} /> : ""}
-		</Form>
+		<>
+			<Form onSubmit={(e) => e.preventDefault()}>
+				<FloatingLabel
+					controlId="floatingInput"
+					label="Enter your city..."
+				>
+					<Form.Control
+						type="text"
+						onChange={(e) => setOnSearch(e.target.value)}
+						onBlur={() => {
+                            if(!result) {
+                                setIsDisplay(false);
+                            }
+                        }}
+						placeholder="Enter your city... "
+					/>
+				</FloatingLabel>
+				{isDisplay ? (
+					<ResultSearch
+						load={isLoad}
+						data={result}
+						setData={setData}
+						setIsDisplay={setIsDisplay}
+					/>
+				) : (
+					""
+				)}
+			</Form>
+		</>
 	);
 };
 
 const ResultSearch = (props) => {
-	const { load } = props;
+	const { load, data, setData, setIsDisplay } = props;
+	console.log(data);
 	return (
 		<>
 			<WrapSearch>
-				<center>
-					{load ? (
+				{load ? (
+					<center>
 						<Spinner animation="border" variant="danger" />
-					) : (
-						"Not Found"
-					)}
-				</center>
+					</center>
+				) : data ? (
+					<div
+						className="result__search"
+						onClick={() => {setData(data); setIsDisplay(false)}}
+					>
+						{data.name}, {data.sys.country}: {data.main.temp}°C,{" "}
+						{data.main.humidity}%, {data.wind.speed}m/s
+					</div>
+				) : (
+					<center>Not Found</center>
+				)}
 			</WrapSearch>
 		</>
 	);
 };
 
 const Sun = () => {
+	const [data, setData] = useState("");
+	console.log(data);
 	return (
 		<WrapSun padding="20px">
 			<center>
@@ -124,7 +162,7 @@ const Sun = () => {
 				</Link>
 			</center>
 			<HeaderSun>
-				<WrapInput />
+				<WrapInput setData={setData} />
 				<OverlayTrigger
 					placement="bottom"
 					overlay={<Tooltip>My Location</Tooltip>}
@@ -135,6 +173,7 @@ const Sun = () => {
 					</Button>
 				</OverlayTrigger>
 			</HeaderSun>
+			{data ? <Container data={data} /> : "Not Found"}
 		</WrapSun>
 	);
 };

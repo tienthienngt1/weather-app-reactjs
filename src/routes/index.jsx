@@ -11,7 +11,7 @@ const Routes = () => {
             <Switch>
                 {
                     routeList.map(data => (
-                        <Route exact path={data.path} component={data.comp} />
+                        <Route key={data.path} exact path={data.path} component={data.comp} />
                     ))
                 }
             </Switch>
