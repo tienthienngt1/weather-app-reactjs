@@ -7,7 +7,7 @@ const Main = props => {
 		<>
 			<Temperature {...props} />
 			<Parameter {...props} />
-            <HistoryWeekly />
+            <HistoryWeekly {...props}/>
 		</>
 	);
 };

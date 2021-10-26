@@ -7,7 +7,8 @@ const HistoryWeeklyWrap = styled(Row)`
     }
 `
 
-const HistoryWeekly = () => {
+const HistoryWeekly = props => {
+    console.log(props);
     const array = [
     { day: "Mon", image: "https://openweathermap.org/img/wn/04d.png", tempareture: 230}, 
     { day: "Tue", image: "https://openweathermap.org/img/wn/04d.png", tempareture: 230}, 

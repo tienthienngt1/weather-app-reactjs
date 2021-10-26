@@ -19,20 +19,20 @@ const TemperatureWrap = styled(Row)`
 	}
     .main__temperature__cloud{
         width: 100%;
-        border: 1px solid red;
         }
     }
 `;
 
 const Temperature = (props) => {
-	return (
+    const {data} = props;
+    return (
 		<>
 			<TemperatureWrap direction="horizontal" gap={2}>
 				<Col className="main__temperature__text">
 					<span>
-						{props.main.temp} 
+						{data.resCurrent.main.temp} 
 							<h3 style={{ color: "black" }}>
-								{props.weather[0].description.toUpperCase()}
+								{data.resCurrent.weather[0].description.toUpperCase()}
 							</h3>
                         <span>°C</span>
 					</span>
@@ -40,7 +40,7 @@ const Temperature = (props) => {
 				<Col className="main__temperature__cloud ms-auto">
 					<img
 						alt=""
-						src={`https://openweathermap.org/img/wn/${props.weather[0].icon}.png`}
+						src={`https://openweathermap.org/img/wn/${data.resCurrent.weather[0].icon}.png`}
 						width="100%"
 					/>
 				</Col>

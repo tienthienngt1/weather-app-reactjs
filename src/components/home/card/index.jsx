@@ -10,7 +10,6 @@ const WrapCard = styled.div`
 `
 
 const Card = props => {
-    console.log(props);
     return (
         <WrapCard>
             <HeaderCard {...props}/>

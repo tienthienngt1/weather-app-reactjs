@@ -7,7 +7,6 @@ import {BsFillFunnelFill} from "react-icons/bs";
 const ParameterWrap = styled(Row)`
     padding: 20px 0;
     font-size: 20px;
-    border: 1px solid red;
     .col{
         display: flex;
         justify-content: center;
@@ -18,17 +17,18 @@ const ParameterWrap = styled(Row)`
 
 
 const Parameter = props => {
+    const {data} = props;
     return (
         <>
             <ParameterWrap>
 				<Col>
-					<IoMdWater className="m-1" /> {props.main.humidity}%
+					<IoMdWater className="m-1" /> {data.resCurrent.main.humidity}%
 				</Col>
 				<Col>
-					<GiPaperWindmill className="m-1" /> {props.wind.speed}m/s
+					<GiPaperWindmill className="m-1" /> {data.resCurrent.wind.speed}m/s
 				</Col>
 				<Col>
-                    <BsFillFunnelFill className="m-1" /> {props.main.pressure}Pa
+                    <BsFillFunnelFill className="m-1" /> {data.resCurrent.main.pressure}Pa
                 </Col>
 			</ParameterWrap>
         </>

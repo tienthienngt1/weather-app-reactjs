@@ -4,16 +4,14 @@ import Card from "./card"
 import Map from "./Map"
 
 const WrapContainer = styled(Row)`
-    border: 1px solid red;
     padding-top: 80px;
 `
 
-const Container = ({data}) => {
-    console.log(data);
+const Container = props => {
     return (
         <WrapContainer>
             <Col lg={6}>
-                <Card {...data} />
+                <Card {...props} />
             </Col>
             <Col lg={6}>
                 <Map />

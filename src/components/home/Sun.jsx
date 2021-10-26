@@ -22,7 +22,6 @@ const HeaderSun = styled.div`
 	justify-content: space-around;
 	width: 100%;
 	height: 60px;
-	border: 1px solid red;
 	.btn-circle {
 		border-radius: 50%;
 	}
@@ -47,7 +46,6 @@ const WrapSearch = styled.div`
 	z-index: 2;
 	.result__search {
 		cursor: pointer;
-		background: red;
 	}
 `;
 
@@ -70,21 +68,38 @@ const WrapInput = ({ setData, ...rest }) => {
 						`https://api.openweathermap.org/data/2.5/weather?q=${onSearch}&units=metric&lang=en&appid=${KEY}`
 					)
 					.then((res) => {
-						setResult(res.data);
-						axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${res.data.coord.lat}&lon=${res.data.coord.lon}&exclude=daily&appid=${KEY}`)
-						.then(res => {
-						    setIsLoad(false)
-                            const history = res.data;
-                            console.log(history);
-						})
-						.catch(err => {
-						    setIsLoad(false)
-						    setResult('')
-                            console.log(err);
-						})
+                        const resCurrent = res.data;
+						let resHistory = [];
+						for (let i = 1; i <= 5; i++) {
+							if (i === 1 || i === 3 || i === 5) {
+								axios
+									.get(
+										`https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&lat=${
+											res.data.coord.lat
+										}&lon=${res.data.coord.lon}&dt=${
+											res.data.dt - 24 * 60 * 60 * i
+										}&appid=${KEY}`
+									)
+									.then((res) => {
+										resHistory.push(
+											res.data.hourly[23],
+											res.data.hourly[0],
+										);
+										console.log(resHistory);
+										if (i === 5) {
+                                            setIsLoad(false);
+                                            setResult({resCurrent,resHistory})
+                                        } 
+									})
+									.catch((err) => {
+										setIsLoad(false);
+										setResult("");
+										console.log(err);
+									});
+							}
+						}
 					})
 					.catch((error) => {
-                        console.log(error);
 						setIsLoad(false);
 						setResult("");
 					});
@@ -104,10 +119,10 @@ const WrapInput = ({ setData, ...rest }) => {
 						type="text"
 						onChange={(e) => setOnSearch(e.target.value)}
 						onBlur={() => {
-                            if(!result) {
-                                setIsDisplay(false);
-                            }
-                        }}
+							if (!result) {
+								setIsDisplay(false);
+							}
+						}}
 						placeholder="Enter your city... "
 					/>
 				</FloatingLabel>
@@ -138,10 +153,13 @@ const ResultSearch = (props) => {
 				) : data ? (
 					<div
 						className="result__search"
-						onClick={() => {setData(data); setIsDisplay(false)}}
+						onClick={() => {
+							setData(data);
+							setIsDisplay(false);
+						}}
 					>
-						{data.name}, {data.sys.country}: {data.main.temp}°C,{" "}
-						{data.main.humidity}%, {data.wind.speed}m/s
+						{data.resCurrent.name}, {data.resCurrent.sys.country}: {data.resCurrent.main.temp}°C,{" "}
+						{data.resCurrent.main.humidity}%, {data.resCurrent.wind.speed}m/s
 					</div>
 				) : (
 					<center>Not Found</center>
