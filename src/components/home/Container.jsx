@@ -8,11 +8,12 @@ const WrapContainer = styled(Row)`
     padding-top: 80px;
 `
 
-const Container = () => {
+const Container = ({data}) => {
+    console.log(data);
     return (
         <WrapContainer>
             <Col lg={6}>
-                <Card />
+                <Card {...data} />
             </Col>
             <Col lg={6}>
                 <Map />

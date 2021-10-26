@@ -17,18 +17,18 @@ const ParameterWrap = styled(Row)`
 
 
 
-const Parameter = () => {
+const Parameter = props => {
     return (
         <>
             <ParameterWrap>
 				<Col>
-					<IoMdWater className="m-1" /> 20%
+					<IoMdWater className="m-1" /> {props.main.humidity}%
 				</Col>
 				<Col>
-					<GiPaperWindmill className="m-1" /> 2.9m/s
+					<GiPaperWindmill className="m-1" /> {props.wind.speed}m/s
 				</Col>
 				<Col>
-                    <BsFillFunnelFill className="m-1" /> 320Pa
+                    <BsFillFunnelFill className="m-1" /> {props.main.pressure}Pa
                 </Col>
 			</ParameterWrap>
         </>

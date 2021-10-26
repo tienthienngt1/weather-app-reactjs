@@ -67,23 +67,24 @@ const WrapInput = ({ setData, ...rest }) => {
 				// get data from openweather
 				axios
 					.get(
-						`https://api.openweathermap.org/data/2.5/weather?q=${onSearch}&units=metric&lang=vi&appid=${KEY}`
+						`https://api.openweathermap.org/data/2.5/weather?q=${onSearch}&units=metric&lang=en&appid=${KEY}`
 					)
 					.then((res) => {
 						setResult(res.data);
-						console.log(res);
-						setIsLoad(false);
-						// axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=daily&appid=${KEY}`)
-						// .then(res => {
-						//     setIsLoad(false)
-						//     console.log(res);
-						// })
-						// .catch(err => {
-						//     setIsLoad(false)
-						//     setResult('')
-						// })
+						axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${res.data.coord.lat}&lon=${res.data.coord.lon}&exclude=daily&appid=${KEY}`)
+						.then(res => {
+						    setIsLoad(false)
+                            const history = res.data;
+                            console.log(history);
+						})
+						.catch(err => {
+						    setIsLoad(false)
+						    setResult('')
+                            console.log(err);
+						})
 					})
 					.catch((error) => {
+                        console.log(error);
 						setIsLoad(false);
 						setResult("");
 					});
@@ -127,7 +128,6 @@ const WrapInput = ({ setData, ...rest }) => {
 
 const ResultSearch = (props) => {
 	const { load, data, setData, setIsDisplay } = props;
-	console.log(data);
 	return (
 		<>
 			<WrapSearch>
@@ -153,7 +153,6 @@ const ResultSearch = (props) => {
 
 const Sun = () => {
 	const [data, setData] = useState("");
-	console.log(data);
 	return (
 		<WrapSun padding="20px">
 			<center>

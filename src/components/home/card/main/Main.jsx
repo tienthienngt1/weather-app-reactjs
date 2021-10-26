@@ -2,11 +2,11 @@ import Parameter from "./Parameter";
 import Temperature from "./Temperature";
 import HistoryWeekly from "./HistoryWeekly";
 
-const Main = () => {
+const Main = props => {
 	return (
 		<>
-			<Temperature />
-			<Parameter />
+			<Temperature {...props} />
+			<Parameter {...props} />
             <HistoryWeekly />
 		</>
 	);

@@ -8,11 +8,16 @@ const Wrap = styled(Stack)`
     padding: 20px 0;
 `;
 
-const HeaderCard = () => {
+const HeaderCard = props => {
+    const getTime = new Date(props.dt * 1000);
+    const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 	return (
 		<Wrap direction="horizontal" gap={2}>
-			<div>HaNoi,Vn</div>
-			<div className="ms-auto">Sun,October 25</div>
+			<div>{props.name},{props.sys.country}</div>
+			<div className="ms-auto">{dayNames[getTime.getDay()]}, {monthNames[getTime.getMonth()]} {getTime.getDate()}</div>
 		</Wrap>
 	);
 };
