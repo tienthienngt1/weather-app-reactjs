@@ -1,40 +1,40 @@
-import {Row, Col} from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import styled from "styled-components";
+import { LINK_IMAGE } from "../../../../constants";
 
 const HistoryWeeklyWrap = styled(Row)`
-    .col{
-        text-align: center;
-    }
-`
+	.col {
+		text-align: center;
+	}
+`;
 
-const HistoryWeekly = props => {
+const HistoryWeekly = (props) => {
     console.log(props);
-    const array = [
-    { day: "Mon", image: "https://openweathermap.org/img/wn/04d.png", tempareture: 230}, 
-    { day: "Tue", image: "https://openweathermap.org/img/wn/04d.png", tempareture: 230}, 
-    { day: "Wed", image: "https://openweathermap.org/img/wn/04d.png", tempareture: 230}, 
-    { day: "Thu", image: "https://openweathermap.org/img/wn/04d.png", tempareture: 230}, 
-    { day: "Fri", image: "https://openweathermap.org/img/wn/04d.png", tempareture: 230}, 
-    { day: "Sat", image: "https://openweathermap.org/img/wn/04d.png", tempareture: 230}, 
-    { day: "Sun", image: "https://openweathermap.org/img/wn/04d.png", tempareture: 230}, 
-    ];
-    return (
-        <HistoryWeeklyWrap>
-            {
-                array.map(data => (
-                    <Col key={data.day}>
-                        <div>{data.day}</div>
-                        <div>
-                            <img src={data.image} alt="" width="100%"/>
-                        </div>
-                        <div>
-                            {data.tempareture}
-                        </div>
-                    </Col>
-                ))
-            }
-        </HistoryWeeklyWrap>
-    );
+	let data = props.data.resHistory;
+	data.sort((a, b) => b.dt - a.dt);
+	const array = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+	return (
+		<HistoryWeeklyWrap>
+			{data.reverse().map((res) => (
+				<Col key={res.dt}>
+					<div>{array[new Date(res.dt * 1000).getDay()]}</div>
+					<div>
+						{new Date(res.dt * 1000).getDate()}/
+						{new Date(res.dt * 1000).getMonth()}
+					</div>
+					<div>
+						<img
+							src={`${LINK_IMAGE}${res.weather[0].icon}.png`}
+							alt=""
+							width="100%"
+						/>
+					</div>
+					<div>{res.weather[0].main}</div>
+					<div>{res.temp}°C</div>
+				</Col>
+			))}
+		</HistoryWeeklyWrap>
+	);
 };
 
 export default HistoryWeekly;
