@@ -1,6 +1,6 @@
 import { Row, Col } from "react-bootstrap";
 import styled from "styled-components";
-import { LINK_IMAGE } from "../../../../constants";
+import { LINK_IMAGE } from "../../../../../../constants";
 
 const HistoryWeeklyWrap = styled(Row)`
 	.col {
@@ -9,18 +9,17 @@ const HistoryWeeklyWrap = styled(Row)`
 `;
 
 const HistoryWeekly = (props) => {
-    console.log(props);
 	let data = props.data.resHistory;
 	data.sort((a, b) => b.dt - a.dt);
 	const array = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 	return (
 		<HistoryWeeklyWrap>
 			{data.reverse().map((res) => (
-				<Col key={res.dt}>
+				<Col key={res.dt} className="col-2">
 					<div>{array[new Date(res.dt * 1000).getDay()]}</div>
 					<div>
 						{new Date(res.dt * 1000).getDate()}/
-						{new Date(res.dt * 1000).getMonth()}
+						{(new Date(res.dt * 1000).getMonth() ) + 1}
 					</div>
 					<div>
 						<img

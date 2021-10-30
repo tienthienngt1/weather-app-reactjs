@@ -22,13 +22,13 @@ const Parameter = props => {
         <>
             <ParameterWrap>
 				<Col>
-					<IoMdWater className="m-1" /> {data.resCurrent.main.humidity}%
+					<IoMdWater className="m-1" /> {data.resHistory[0].humidity}%
 				</Col>
 				<Col>
-					<GiPaperWindmill className="m-1" /> {data.resCurrent.wind.speed}m/s
+					<GiPaperWindmill className="m-1" /> {data.resHistory[0].wind_speed}m/s
 				</Col>
 				<Col>
-                    <BsFillFunnelFill className="m-1" /> {data.resCurrent.main.pressure}Pa
+                    <BsFillFunnelFill className="m-1" /> {data.resHistory[0].pressure}Pa
                 </Col>
 			</ParameterWrap>
         </>

@@ -1,6 +1,5 @@
-import{useContext} from "react"
-import {AppContext} from "../contexts/AppContext"
-import Sun from "../components/home/Sun"
+
+import Sun from "../components/home"
 
 const Home = () => {
 

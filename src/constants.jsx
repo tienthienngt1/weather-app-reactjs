@@ -1,2 +1,5 @@
 export const KEY = "3eb896a3b9b447a3caf5394a1c020463"
 export const LINK_IMAGE = "https://openweathermap.org/img/wn/"
+export const GOOGLE_MAP_API = "AIzaSyD4KlfBuqNzh3fRrQjBd5H0ioua92gPg9w"
+export const LINK_CURRENT_WEATHER = "https://api.openweathermap.org/data/2.5/weather?units=metric&"
+export const LINK_HISTORY_WEATHER = "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&"
