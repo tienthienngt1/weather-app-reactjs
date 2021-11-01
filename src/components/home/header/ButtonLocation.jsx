@@ -1,10 +1,34 @@
+import { useState } from "react";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { BiCurrentLocation } from "react-icons/bi";
 import { requestHistoryWeather } from "../../../api/requestWeather";
 import { requestCurrentWeatherByGeo } from "../../../api/requestWeather";
+import Notifi from "../../common/Notifi";
 
 const ButtonLocation = (props) => {
+	const [notifi, setNotifi] = useState({
+		status: false,
+		message: "",
+		variant: "",
+	});
 	const handleButton = () => {
+		if (!navigator.onLine) {
+			setNotifi({
+				status: true,
+				message: "Offline!",
+				variant: "primary",
+			});
+			setTimeout(() => {
+				setNotifi({
+					status: false,
+				});
+			}, 3000);
+			return;
+		}
+		setNotifi({
+			status: true,
+			loading: true,
+		});
 		navigator.geolocation.getCurrentPosition(
 			async (res) => {
 				const { latitude, longitude } = res.coords;
@@ -30,16 +54,26 @@ const ButtonLocation = (props) => {
 							}
 						}
 					}
-                    props.setIsData(false);
-                    props.setData({resCurrent: resCurrent.data,resHistory})
-                    props.setIsData(true);
+					props.setData({
+						isData: false,
+                        data: { resCurrent: resCurrent.data, resHistory },
+					});
+					props.setData({
+						isData: true,
+						data: { resCurrent: resCurrent.data, resHistory },
+					});
 				} else {
 					alert("Error! Please try again!");
 				}
+				setNotifi({
+					status: false,
+				});
 			},
 			(err) => {
-				console.log(err);
 				alert("You must enable website access your location!");
+				setNotifi({
+					status: false,
+				});
 			}
 		);
 	};
@@ -54,6 +88,13 @@ const ButtonLocation = (props) => {
 					<BiCurrentLocation size="30" />
 				</Button>
 			</OverlayTrigger>
+			{notifi.status && (
+				<Notifi
+					message={notifi.message}
+					loading={notifi.loading}
+					variant={notifi.variant}
+				/>
+			)}
 		</>
 	);
 };

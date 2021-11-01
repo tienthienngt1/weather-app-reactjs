@@ -9,10 +9,9 @@ const Wrap = styled(Stack)`
 `;
 
 const HeaderCard = props => {
-    const {data} = props;
-    console.log(data);
+    const {data:{data}} = props;
     const getTime = new Date(data.resCurrent.dt * 1000);
-    const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const dayNames = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];

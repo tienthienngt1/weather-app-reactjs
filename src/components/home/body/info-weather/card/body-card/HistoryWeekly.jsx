@@ -9,9 +9,9 @@ const HistoryWeeklyWrap = styled(Row)`
 `;
 
 const HistoryWeekly = (props) => {
-	let data = props.data.resHistory;
+	let data = props.data.data.resHistory;
 	data.sort((a, b) => b.dt - a.dt);
-	const array = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+	const array = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 	return (
 		<HistoryWeeklyWrap>
 			{data.reverse().map((res) => (

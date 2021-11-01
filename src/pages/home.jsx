@@ -1,8 +1,8 @@
 
 import Sun from "../components/home"
 
-const Home = () => {
 
+const Home = () => {
     return (
         <>
             <Sun />

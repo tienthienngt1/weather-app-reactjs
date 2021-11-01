@@ -6,14 +6,12 @@ import Map from "./map/Map";
 const WrapBody = styled(Row)`
 	padding-top: 80px;
     border-radius: 20px;
-    animation: fromTop 1s ease-in-out;
     .col-lg-6{
         margin-top: 10px;
     }
 `;
 
 const Body = props=> {
-    console.log(props);
     return (
 		<WrapBody>
 			<Col lg={6}>

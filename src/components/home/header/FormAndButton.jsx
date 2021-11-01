@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import {
-	Spinner,
-	Form,
-	FloatingLabel,
-} from "react-bootstrap";
+import { Spinner, Form, FloatingLabel } from "react-bootstrap";
 import { requestHistoryWeather } from "../../../api/requestWeather";
 import { requestCurrentWeather } from "../../../api/requestWeather";
 import ButtonLocation from "./ButtonLocation";
@@ -32,13 +28,18 @@ const ResultSearch = (props) => {
 					<div
 						className="result__search"
 						onClick={() => {
-							if (props.isData) {
-								props.setIsData(false);
+							if (props.dataContainer.isData) {
+								setData({
+                                    isData: false,
+                                    data: data
+                                });
 							}
 							setTimeout(() => {
-								props.setIsData(true);
+                                setData({
+                                    isData: true,
+                                    data: data
+                                })
 							}, 300);
-							setData(data);
 							setIsDisplay(false);
 						}}
 					>
@@ -55,7 +56,7 @@ const ResultSearch = (props) => {
 	);
 };
 
-const WrapInput = ({ setData, ...props }) => {
+const WrapInput = (props) => {
 	const [onSearch, setOnSearch] = useState("");
 	const [isLoad, setIsLoad] = useState(false);
 	const [isDisplay, setIsDisplay] = useState(false);
@@ -81,6 +82,15 @@ const WrapInput = ({ setData, ...props }) => {
 									resCurrent.coord.lat,
 									resCurrent.dt - 24 * 60 * 60 * i
 								);
+								if (queryHistory.data) {
+									resHistory.push(
+										queryHistory.data.hourly[23],
+										queryHistory.data.hourly[0]
+									);
+								} else {
+									setIsLoad(false);
+									setResult("");
+								}
 							}
 							if (i === 5) {
 								setIsLoad(false);
@@ -89,15 +99,6 @@ const WrapInput = ({ setData, ...props }) => {
 									resHistory,
 								});
 							}
-						}
-						if (queryHistory.data) {
-							resHistory.push(
-								queryHistory.data.hourly[23],
-								queryHistory.data.hourly[0]
-							);
-						} else {
-							setIsLoad(false);
-							setResult("");
 						}
 					} else {
 						setIsLoad(false);
@@ -132,7 +133,6 @@ const WrapInput = ({ setData, ...props }) => {
 						{...props}
 						load={isLoad}
 						data={result}
-						setData={setData}
 						setIsDisplay={setIsDisplay}
 					/>
 				) : (
@@ -159,11 +159,7 @@ const FormAndButton = (props) => {
 	return (
 		<>
 			<WrapFormAndButton>
-				<WrapInput
-					isData={props.isData}
-					setIsData={props.setIsData}
-					setData={props.setData}
-				/>
+				<WrapInput {...props} />
 				<ButtonLocation {...props} />
 			</WrapFormAndButton>
 		</>

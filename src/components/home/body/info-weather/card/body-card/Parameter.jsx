@@ -17,7 +17,7 @@ const ParameterWrap = styled(Row)`
 
 
 const Parameter = props => {
-    const {data} = props;
+    const {data:{data}} = props;
     return (
         <>
             <ParameterWrap>

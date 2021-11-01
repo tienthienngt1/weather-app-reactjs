@@ -28,7 +28,7 @@ const TemperatureWrap = styled(Row)`
 `;
 
 const Temperature = (props) => {
-	let { data } = props;
+	let { data:{data} } = props;
     data = data.resHistory.sort((a,b) => b.dt - a.dt);
 	return (
 		<>
@@ -36,7 +36,8 @@ const Temperature = (props) => {
 				<Col className="main__temperature__text">
 					<span>
 						<span className="temperature__text">
-							{data[0].temp}
+							 
+                             {data[0].temp}
 							<span>°C</span>
 						</span>
 						<h3 style={{ color: "black" }}>
@@ -50,7 +51,7 @@ const Temperature = (props) => {
 				</Col>
 				<Col className="main__temperature__cloud ms-auto">
 					<img
-						alt=""
+						alt={data[0].weather[0].description}
 						src={`https://openweathermap.org/img/wn/${data[0].weather[0].icon}.png`}
 						width="100%"
 					/>

@@ -12,7 +12,7 @@ const Map = props => {
 						<div
 							style={{
 								height: `100%`,
-                                border: `4px solid red`,
+                                animation: `fromRight 1s ease-in-out`,
 							}}
 						/>
 					}
