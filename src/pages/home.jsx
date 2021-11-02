@@ -1,11 +1,11 @@
 
-import Sun from "../components/home"
+import HomeComponent from "../components/home"
 
 
 const Home = () => {
     return (
         <>
-            <Sun />
+            <HomeComponent />
         </>
     );
 };

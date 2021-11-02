@@ -4,8 +4,9 @@ import InfoWeather from "./info-weather/InfoWeather";
 import Map from "./map/Map";
 
 const WrapBody = styled(Row)`
-	padding-top: 80px;
+	margin-top: 80px;
     border-radius: 20px;
+    padding: 10px;
     .col-lg-6{
         margin-top: 10px;
     }
